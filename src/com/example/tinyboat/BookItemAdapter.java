@@ -29,7 +29,7 @@ public class BookItemAdapter extends ArrayAdapter<BookItem>
 		TextView bookName=(TextView)view.findViewById(R.id.my_book_name);
 		TextView bookAuthor=(TextView)view.findViewById(R.id.my_book_author);
 		ImageView toDetail=(ImageView)view.findViewById(R.id.book_item_to_detail);
-		bookImage.setImageResource(book.getImageId());
+		bookImage.setImageBitmap(book.getImageId());
 		bookName.setText(book.getName());
 		bookAuthor.setText(book.getAuthor());
 		toDetail.setImageResource(R.drawable.ic_chevron_right_black_36dp);

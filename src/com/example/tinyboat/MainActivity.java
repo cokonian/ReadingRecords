@@ -13,7 +13,7 @@ import android.view.Window;
 public class MainActivity extends Activity {
 	
 	private List<BookItem> myBookList=new ArrayList<BookItem>();
-	private MyDatabaseHelper dbHelper;
+	private BookDatabaseHelper dbHelper;
 	SQLiteDatabase db=dbHelper.getWritableDatabase();
 	
 	@Override
