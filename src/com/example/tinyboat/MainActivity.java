@@ -45,15 +45,17 @@ public class MainActivity extends Activity implements OnClickListener{
 		menu=(Button)findViewById(R.id.app_menu);
 		appName=(TextView)findViewById(R.id.app_name);
 		adapter=new BookItemAdapter(MainActivity.this,R.layout.my_book_item,myBookList);
-		listView=(ListView)findViewById(R.id.list_view);
-		listView.setAdapter(adapter);
+		listView=(ListView)findViewById(R.id.list_view);		
 		search.setOnClickListener(this);
 		menu.setOnClickListener(this);
 		Intent intent=getIntent();
 		if(intent.getStringExtra("isbn")!=null)
-		{
+		{   
+			bookDB=BookDB.getInstance(this);
 			String isbnCode=intent.getStringExtra("isbn");
 			queryFromServer(isbnCode);
+			myBookList=bookDB.loadBookItem();
+			listView.setAdapter(adapter);
 		}
 
 		
@@ -80,7 +82,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		String address="";
 	    if(!TextUtils.isEmpty(isbnCode))
 	    {
-	    	address="https://api.douban.com/v2/book/isbn/:"+isbnCode;
+	    	address="http://api.douban.com/v2/book/isbn/:"+isbnCode;
 	    }
 	    showProgressDialog();
 	    HttpUtil.sendHttpRequest(address, new HttpCallBackListener(){

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BookDatabaseHelper extends SQLiteOpenHelper
 {
 	public static final String CREATE_BOOK="create table Book("
-    		+"id integer primary key auto increment,"
+    		+"id integer primary key autoincrement,"
     		+"name text"
     		+"author text"
     		+"image blob)";

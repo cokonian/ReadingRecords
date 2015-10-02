@@ -8,14 +8,13 @@ public class Utility
     public synchronized static void handleBookItemsResponse(BookDB bookDB,String response)
     {
     	try{
-    		JSONObject jsonObject=new JSONObject(response);
-    		JSONObject bookInfo=jsonObject.getJSONObject("rating");
+    		JSONObject bookInfo=new JSONObject(response);
     		BookItem bookItem=new BookItem();
     		String bookName=bookInfo.getString("title");
     		bookItem.setName(bookName);
     		String bookAuthor=bookInfo.getString("author");
     		bookItem.setAuthor(bookAuthor);
-    		String bookImageAddress=bookInfo.getString("image");
+    		String bookImageAddress=bookInfo.getString("image[0]");
     		byte[] buffer=HttpUtil.downloadImage(bookImageAddress);
     		bookItem.setImageId(buffer);
     		bookDB.saveBookItem(bookItem);    		
