@@ -5,22 +5,67 @@
     android:orientation="vertical"
     tools:context="com.example.tinyboat.MainActivity" >
 
-    <include layout="@layout/activity1_title" />
+    <RelativeLayout
+        android:id="@+id/main_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00bfa5" >
+
+        <ImageView
+            android:id="@+id/main_activity_pic"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/pic1_description"
+            android:src="@drawable/ic_book_white_48dp" />
+
+        <Button
+            android:id="@+id/app_menu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_arrow_drop_down_white_48dp" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="56dp"
+            android:layout_marginStart="56dp"
+            android:text="@string/application_name"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/search_new_book"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="48dp"
+            android:layout_marginRight="48dp"
+            android:background="@drawable/ic_search_white_48dp"
+            android:contentDescription="@string/pic2_description" />
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4" >
-        
     </ScrollView>
-    <ListView 
+
+    <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6" >
-        
     </ListView>
-
 
 </LinearLayout>

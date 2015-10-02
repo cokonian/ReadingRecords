@@ -5,21 +5,26 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener{
 		
+	private RelativeLayout mainTitle;
 	private ImageView imageIcon;
 	private Button search;
 	private Button menu;
 	private TextView appName;
+	
 	
 	private List<BookItem> myBookList=new ArrayList<BookItem>();
 	private ListView listView;
@@ -27,11 +32,14 @@ public class MainActivity extends Activity {
 	private BookDB bookDB;
 	private ProgressDialog progressDialog;
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		mainTitle=(RelativeLayout)findViewById(R.id.main_title);
 		imageIcon=(ImageView)findViewById(R.id.main_activity_pic);
 		search=(Button)findViewById(R.id.search_new_book);
 		menu=(Button)findViewById(R.id.app_menu);
@@ -39,26 +47,80 @@ public class MainActivity extends Activity {
 		adapter=new BookItemAdapter(MainActivity.this,R.layout.my_book_item,myBookList);
 		listView=(ListView)findViewById(R.id.list_view);
 		listView.setAdapter(adapter);
-		
-		
+		search.setOnClickListener(this);
+		menu.setOnClickListener(this);
+		Intent intent=getIntent();
+		if(intent.getStringExtra("isbn")!=null)
+		{
+			String isbnCode=intent.getStringExtra("isbn");
+			queryFromServer(isbnCode);
+		}
+
 		
 	}
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	public void onClick(View v) {
+		switch(v.getId())
+		{
+		case R.id.search_new_book:
+			Intent intent=new Intent(MainActivity.this,SearchActivity.class);
+			startActivity(intent);
+			finish();
+			break;
+		case R.id.app_menu:
+			break;			
+		default:
+			break;
+		}
+	}
+	
+	private void queryFromServer(String isbnCode) 
+	{   
+		String address="";
+	    if(!TextUtils.isEmpty(isbnCode))
+	    {
+	    	address="https://api.douban.com/v2/book/isbn/:"+isbnCode;
+	    }
+	    showProgressDialog();
+	    HttpUtil.sendHttpRequest(address, new HttpCallBackListener(){
+
+			@Override
+			public void onFinish(String response) {
+				Utility.handleBookItemsResponse(bookDB, response);
+				runOnUiThread(new Runnable(){
+
+					@Override
+					public void run() {
+						closeProgressDialog();
+					}				
+					
+				});
+			}
+
+			@Override
+			public void onError(Exception e) {
+				// TODO Auto-generated method stub
+				
+			}
+	    	
+	    });
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+	private void showProgressDialog() {
+		if(progressDialog==null)
+		{
+			progressDialog=new ProgressDialog(this);
+			progressDialog.setMessage("ÕýÔÚËÑË÷¡£¡£¡£");
+			progressDialog.setCanceledOnTouchOutside(false);
 		}
-		return super.onOptionsItemSelected(item);
+		progressDialog.show();
 	}
+	
+	private void closeProgressDialog() {
+		if(progressDialog!=null)
+		{
+			progressDialog.dismiss();
+		}
+	}	
 }
