@@ -8,5 +8,8 @@
     <string name="pic2_description">this is search button</string>
     <string name="book_image_from_douban">book image from douban</string>
     <string name="button_to_detail">to book detail</string>
+    <string name="searchbook">查找书籍</string>
+    <string name="hint_isbn">请输入书后的ISBN码</string>
+    <string name="sousuo">搜索</string>
 
 </resources>

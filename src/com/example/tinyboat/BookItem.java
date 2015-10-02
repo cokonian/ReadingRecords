@@ -1,10 +1,8 @@
 package com.example.tinyboat;
 
-import android.graphics.Bitmap;
-
 public class BookItem 
 {
-    private Bitmap imageId;
+    private byte[] imageId;
     private  String bookName;
     private String author;
     
@@ -29,12 +27,12 @@ public class BookItem
     	this.author=author;
     }
     
-    public Bitmap getImageId()
+    public byte[] getImageId()
     {
     	return imageId;
     }
     
-    public void setImageId(Bitmap imageId)
+    public void setImageId(byte[] imageId)
     {
     	this.imageId=imageId;
     }

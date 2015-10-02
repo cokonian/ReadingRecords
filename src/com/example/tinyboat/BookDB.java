@@ -1,6 +1,5 @@
 package com.example.tinyboat;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 public class BookDB 
 {
@@ -33,18 +30,24 @@ public class BookDB
     	}
     	return bookDB;
     }
+    public void initBookDB()
+    {
+    	ContentValues values=new ContentValues();
+    	values.put("name","第一行代码");
+    	values.put("author","GuoLin");
+    	values.put("image","{0}");
+    	db.insert("BooK", null, values);
+    }
     
     //将BookItem实例存入数据库
     public void saveBookItem(BookItem bookItem)
     {
     	if(bookItem!=null)
     	{   
-    		ByteArrayOutputStream os = new ByteArrayOutputStream();  
-    		bookItem.getImageId().compress(Bitmap.CompressFormat.JPEG,100,os);
     		ContentValues values=new ContentValues();
     		values.put("name", bookItem.getName());
     		values.put("author", bookItem.getAuthor());
-    		values.put("image", os.toByteArray());
+    		values.put("image",bookItem.getImageId());
     		db.insert("Book", null, values);
     	}
     }
@@ -58,10 +61,9 @@ public class BookDB
     	{
     		do {
     			BookItem bookItem=new BookItem();
-    			Bitmap bmpout = BitmapFactory.decodeByteArray(cursor.getBlob(cursor.getColumnIndex("image")), 0, cursor.getBlob(cursor.getColumnIndex("image")).length);
     			bookItem.setName(cursor.getString(cursor.getColumnIndex("name")));
     			bookItem.setAuthor(cursor.getString(cursor.getColumnIndex("author")));
-    			bookItem.setImageId(bmpout);
+    			bookItem.setImageId(cursor.getBlob(cursor.getColumnIndex("image")));
     			list.add(bookItem);
     		}while(cursor.moveToNext());
     	}

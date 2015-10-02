@@ -3,6 +3,8 @@ package com.example.tinyboat;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +31,8 @@ public class BookItemAdapter extends ArrayAdapter<BookItem>
 		TextView bookName=(TextView)view.findViewById(R.id.my_book_name);
 		TextView bookAuthor=(TextView)view.findViewById(R.id.my_book_author);
 		ImageView toDetail=(ImageView)view.findViewById(R.id.book_item_to_detail);
-		bookImage.setImageBitmap(book.getImageId());
+		Bitmap bmpout = BitmapFactory.decodeByteArray(book.getImageId(), 0, book.getImageId().length);
+		bookImage.setImageBitmap(bmpout);
 		bookName.setText(book.getName());
 		bookAuthor.setText(book.getAuthor());
 		toDetail.setImageResource(R.drawable.ic_chevron_right_black_36dp);
