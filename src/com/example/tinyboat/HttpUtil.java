@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.util.Log;
+
 public class HttpUtil 
 {
     public static void sendHttpRequest(final String address,final HttpCallBackListener listener)
@@ -29,6 +31,7 @@ public class HttpUtil
 					while((line=reader.readLine())!=null)
 					{
 						response.append(line);
+						Log.e("this step?", line);
 					}
 				}catch(Exception e)
 				{

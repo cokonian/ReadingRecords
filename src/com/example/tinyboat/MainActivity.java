@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener{
 		
@@ -53,6 +55,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		{   
 			bookDB=BookDB.getInstance(this);
 			String isbnCode=intent.getStringExtra("isbn");
+			Log.e("ISBNCode", isbnCode);
 			queryFromServer(isbnCode);
 			myBookList=bookDB.loadBookItem();
 			listView.setAdapter(adapter);
@@ -86,24 +89,27 @@ public class MainActivity extends Activity implements OnClickListener{
 	    }
 	    showProgressDialog();
 	    HttpUtil.sendHttpRequest(address, new HttpCallBackListener(){
-
-			@Override
+	    	@Override
 			public void onFinish(String response) {
-				Utility.handleBookItemsResponse(bookDB, response);
+				Utility.handleBookItemsResponse(MainActivity.this,bookDB, response);
 				runOnUiThread(new Runnable(){
-
 					@Override
 					public void run() {
 						closeProgressDialog();
-					}				
+					}		
 					
 				});
 			}
-
 			@Override
 			public void onError(Exception e) {
-				// TODO Auto-generated method stub
-				
+				runOnUiThread(new Runnable(){
+					@Override
+					public void run() {
+						closeProgressDialog();
+						Toast.makeText(MainActivity.this, "º”‘ÿ ß∞‹°£°£°£", Toast.LENGTH_SHORT).show();
+					}		
+					
+				});				
 			}
 	    	
 	    });
